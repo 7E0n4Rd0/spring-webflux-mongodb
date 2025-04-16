@@ -3,6 +3,7 @@ package com.devsuperior.workshopmongo.services;
 import java.time.Instant;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,4 +37,7 @@ public class PostService {
 		return repository.fullSearch(text, minDate, maxDate).map(PostDTO::new);
 	}
 
+	public Flux<PostDTO> findByUser(String id){
+		return repository.findByUser(new ObjectId(id)).map(PostDTO::new);
+	}
 }

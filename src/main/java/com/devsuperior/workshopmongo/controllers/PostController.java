@@ -3,7 +3,6 @@ package com.devsuperior.workshopmongo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,5 +47,10 @@ public class PostController {
 		Instant max = URL.convertDate(maxDate, Instant.now());
 		
 		return service.fullSearch(text, min, max);
+	}
+
+	@GetMapping(value = "/user/{id}")
+	public Flux<PostDTO> findByUser(@PathVariable String id){
+		return service.findByUser(id);
 	}
 }
