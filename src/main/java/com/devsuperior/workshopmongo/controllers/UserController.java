@@ -37,6 +37,7 @@ public class UserController {
 	public Mono<ResponseEntity<UserDTO>> findById(@PathVariable String id) {
 		return service.findById(id).map(user -> ResponseEntity.ok().body(user));
 	}
+
 	/*
 	@GetMapping(value = "/{id}/posts")
 	public ResponseEntity<List<PostDTO>> findPosts(@PathVariable String id) {
@@ -50,13 +51,12 @@ public class UserController {
 		return service.insert(dto).map(newUser -> ResponseEntity.created(builder.path("/{id}")
 						.buildAndExpand(newUser.getId()).toUri()).body(newUser));
 	}
-	/*
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable String id, @RequestBody UserDTO dto) {
-		dto = service.update(id, dto);
-		return ResponseEntity.ok(dto);
+	public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO dto) {
+		return service.update(id, dto).map(user -> ResponseEntity.ok().body(user));
 	}
-	
+	/*
 	@DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
