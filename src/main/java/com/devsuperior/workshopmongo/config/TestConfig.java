@@ -3,6 +3,7 @@ package com.devsuperior.workshopmongo.config;
 import java.time.Instant;
 import java.util.Arrays;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +12,11 @@ import com.devsuperior.workshopmongo.entities.Post;
 import com.devsuperior.workshopmongo.entities.User;
 import com.devsuperior.workshopmongo.repositories.PostRepository;
 import com.devsuperior.workshopmongo.repositories.UserRepository;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
-public class SeedingDatabase implements CommandLineRunner {
+@Profile("test")
+public class TestConfig{
 
 	@Autowired
 	private UserRepository userRepository;
@@ -21,8 +24,8 @@ public class SeedingDatabase implements CommandLineRunner {
 	@Autowired
 	private PostRepository postRepository;
 
-	@Override
-	public void run(String... args) throws Exception {
+	@PostConstruct
+	public void init(){
 
 		userRepository.deleteAll();
 		postRepository.deleteAll();
