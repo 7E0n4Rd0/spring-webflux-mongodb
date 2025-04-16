@@ -29,8 +29,8 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping
-	public ResponseEntity<Flux<UserDTO>> findAll() {
-		return ResponseEntity.ok(service.findAll());
+	public Flux<ResponseEntity<UserDTO>> findAll() {
+		return service.findAll().map(users -> ResponseEntity.ok().body(users));
 	}
 
 	@GetMapping(value = "/{id}")
