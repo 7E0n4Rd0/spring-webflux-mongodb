@@ -24,11 +24,17 @@ public class UserService {
 		return repository.findAll().map(UserDTO::new);
 	}
 
-	@Transactional(readOnly = true)
 	public Mono<UserDTO> findById(String id) {
 		return repository.findById(id).map(UserDTO::new)
 				.switchIfEmpty(Mono.error(new ResourceNotFoundException("ID not found")));
 
+	}
+
+	public Mono<UserDTO> insert(UserDTO dto){
+		User entity = new User();
+		copyDtoToEntity(dto, entity);
+		Mono<UserDTO> result = repository.save(entity).map(UserDTO::new);
+		return result;
 	}
 	/*
 	@Transactional(readOnly = true)
