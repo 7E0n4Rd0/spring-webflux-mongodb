@@ -11,19 +11,20 @@ import com.devsuperior.workshopmongo.dto.PostDTO;
 import com.devsuperior.workshopmongo.entities.Post;
 import com.devsuperior.workshopmongo.repositories.PostRepository;
 import com.devsuperior.workshopmongo.services.exceptions.ResourceNotFoundException;
+import reactor.core.publisher.Mono;
 
 @Service
 public class PostService {
 
 	@Autowired
 	private PostRepository repository;
-	/*
-	@Transactional(readOnly = true)
-	public PostDTO findById(String id) {
-		Post post = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
-		return new PostDTO(post);
+
+	public Mono<PostDTO> findById(String id) {
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(new ResourceNotFoundException("ID not found")))
+				.map(PostDTO::new);
 	}
-	
+	/*
 	public List<PostDTO> findByTitle(String text) {
 		List<PostDTO> result = repository.searchTitle(text).stream().map(x -> new PostDTO(x)).toList();
 		return result;
@@ -34,6 +35,5 @@ public class PostService {
 		List<PostDTO> result = repository.fullSearch(text, minDate, maxDate).stream().map(x -> new PostDTO(x)).toList();
 		return result;
 	}
-
-	 */
+	*/
 }

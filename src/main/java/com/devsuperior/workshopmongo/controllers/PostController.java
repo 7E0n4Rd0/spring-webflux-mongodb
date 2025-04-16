@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devsuperior.workshopmongo.controllers.util.URL;
 import com.devsuperior.workshopmongo.dto.PostDTO;
 import com.devsuperior.workshopmongo.services.PostService;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(value = "/posts")
@@ -23,13 +24,12 @@ public class PostController {
 
 	@Autowired
 	private PostService service;
-	/*
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
-		PostDTO dto = service.findById(id);
-		return ResponseEntity.ok(dto);
+	public Mono<ResponseEntity<PostDTO>> findById(@PathVariable String id) {
+		return service.findById(id).map(post -> ResponseEntity.ok().body(post));
 	}
-	
+	/*
 	@GetMapping(value = "/titlesearch")
 	public ResponseEntity<List<PostDTO>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) throws UnsupportedEncodingException {
 		text = URL.decodeParam(text);
