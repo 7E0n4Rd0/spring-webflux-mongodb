@@ -54,11 +54,6 @@ public class TestConfig{
 		Flux<Post> insertPosts = postRepository.saveAll(Arrays.asList(post1, post2));
 		insertPosts.subscribe();
 
-		/*
-		maria.getPosts().addAll(Arrays.asList(post1, post2));
-		userRepository.save(maria);
-		 */
-
 	}
 
 }

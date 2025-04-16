@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devsuperior.workshopmongo.dto.PostDTO;
 import com.devsuperior.workshopmongo.dto.UserDTO;
 import com.devsuperior.workshopmongo.services.UserService;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -24,19 +26,17 @@ public class UserController {
 
 	@Autowired
 	private UserService service;
-	/*
+
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> findAll() {
-		List<UserDTO> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<Flux<UserDTO>> findAll() {
+		return ResponseEntity.ok(service.findAll());
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-		UserDTO dto = service.findById(id);
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<Mono<UserDTO>> findById(@PathVariable String id) {
+		return ResponseEntity.ok(service.findById(id));
 	}
-	
+	/*
 	@GetMapping(value = "/{id}/posts")
 	public ResponseEntity<List<PostDTO>> findPosts(@PathVariable String id) {
 		List<PostDTO> list = service.findPosts(id);
@@ -60,7 +60,6 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 
-	 */
 }
