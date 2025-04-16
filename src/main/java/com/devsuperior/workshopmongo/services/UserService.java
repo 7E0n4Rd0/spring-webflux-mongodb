@@ -46,11 +46,18 @@ public class UserService {
 	*/
 
 	public Mono<UserDTO> update(String id, UserDTO dto){
-		Mono<User> result = repository.findById(id).switchIfEmpty(Mono.error(new ResourceNotFoundException("ID not found")));
+		Mono<User> result = repository.findById(id)
+				.switchIfEmpty(Mono.error(new ResourceNotFoundException("ID not found")));
 		return result.flatMap(user -> {
 			copyDtoToEntity(dto, user);
 			return repository.save(user);
 		}).map(UserDTO::new);
+	}
+
+	public Mono<Void> delete(String id){
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(new ResourceNotFoundException("ID not found")))
+				.flatMap(user -> repository.delete(user));
 	}
 
 	private void copyDtoToEntity(UserDTO dto, User entity) {
